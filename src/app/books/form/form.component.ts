@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { addBook, addBookSuccess, bookActions } from '../state/actions/books/books.actions';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { getBooksError } from '../state/selectors/book/book.selectors';
 import { ofType } from '@ngrx/effects';
@@ -12,8 +12,8 @@ import { ofType } from '@ngrx/effects';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit {
-
+export class FormComponent implements OnInit, OnDestroy {
+  private subscriptions = new Subscription()
   public booksForm!: FormGroup
   public error$!: Observable<string | Error | HttpErrorResponse | null>
   constructor(private fb: FormBuilder, private store: Store, private actionsSubject: ActionsSubject) { }
@@ -27,11 +27,17 @@ export class FormComponent implements OnInit {
     })
 
     this.error$ = this.store.select(getBooksError)
-    this.actionsSubject
-      .pipe(
-        ofType(addBookSuccess, bookActions.updatebooksuccess)
-      )
-      .subscribe(() => this.booksForm.reset())
+    this.subscriptions.add(
+      this.actionsSubject
+        .pipe(
+          ofType(addBookSuccess, bookActions.updatebooksuccess)
+        )
+        .subscribe(() => this.booksForm.reset())
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
   }
 
   onSubmit(): void {
