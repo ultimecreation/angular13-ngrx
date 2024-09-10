@@ -1,0 +1,24 @@
+<div class="container mt-3">
+  <button class="btn btn-primary me-2" routerLink="/books">Books</button>
+
+  <!-- <button class="btn btn-primary" (click)="changeUsername()">
+    Change Username
+  </button>
+
+  <h4>Username:{{ (user | async)?.username }}</h4>
+  <h4>isAdmin:{{ (user | async)?.isAdmin }}</h4>
+  <button class="btn btn-success" (click)="loadUsers()">Load users</button>
+
+  <ng-container *ngIf="(isLoading$ | async) === true; else showUsers">
+    <p>...Is loading</p>
+  </ng-container>
+  <ng-template #showUsers>
+    <li *ngFor="let user of users$ | async">{{ user.username }}</li>
+  </ng-template>
+  <ng-container *ngIf="error$ | async">
+    <p>{{ error$ | async }}</p>
+  </ng-container> -->
+</div>
+<div class="container mt-3">
+  <router-outlet></router-outlet>
+</div>

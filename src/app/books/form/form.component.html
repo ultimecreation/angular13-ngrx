@@ -1,0 +1,35 @@
+<form class="col-6 mx-auto" [formGroup]="booksForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input
+      type="text"
+      class="form-control"
+      name="title"
+      formControlName="title"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="author" class="form-label">Author</label>
+    <input
+      type="text"
+      class="form-control"
+      name="author"
+      formControlName="author"
+    />
+  </div>
+  <div class="mb-3">
+    <label class="form-check-label" for="publisher">Publisher</label>
+    <input
+      type="text"
+      name="publisher"
+      class="form-control"
+      formControlName="publisher"
+    />
+  </div>
+  <ng-container *ngIf="(error$ | async) !== null">
+    <div class="text-danger my-2">
+      {{ error$ | async }}
+    </div>
+  </ng-container>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
